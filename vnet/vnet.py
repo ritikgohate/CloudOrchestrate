@@ -1,4 +1,5 @@
 from google.cloud import compute_v1
+from google.api_core.exceptions import NotFound
 
 def create_subnet(
     project_id, 
@@ -37,6 +38,15 @@ def delete_subnet(project_id, region, subnet_name):
     )
     print(f"Delete operation: {operation.name}")
 
+def ensure_subnet(project_id, region, subnet_name, network, ip_cidr_range):
+    client = compute_v1.SubnetworksClient()
+    try:
+        client.get(project=project_id, region=region, subnetwork=subnet_name)
+        print(f"Subnet '{subnet_name}' already exists.")
+    except NotFound:
+        create_subnet(project_id, region, network, subnet_name, ip_cidr_range)
+
+
 # Usage example:
 # Set these values according to your environment
 project_id = "sapient-duality-469110-d9"
@@ -45,6 +55,7 @@ network = "default"
 subnet_name = "test-subnet"
 ip_cidr_range = "10.0.1.0/24"
 
-create_subnet(project_id, region, network, subnet_name, ip_cidr_range)
+# create_subnet(project_id, region, network, subnet_name, ip_cidr_range)
 list_subnets(project_id, region)
+ensure_subnet(project_id, region, subnet_name, network, ip_cidr_range)
 # delete_subnet(project_id, region, subnet_name)
