@@ -24,7 +24,7 @@ def create_instance_group(
     # Assuming your script is at gs://your-bucket/your-script.sh
     instance_config["metadata"]["items"].append({
         "key": "startup-script-url",
-        "value": "gs://your-bucket/your-script.sh"
+        "value": "gs://startupscripts3043048/awxkey.sh"
     })
     
     print(f"Create operation: {operation.name}")
