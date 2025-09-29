@@ -21,5 +21,11 @@ def create_instance_group(
         zone=zone,
         instance_group_manager_resource=igm
     )
+    # Assuming your script is at gs://your-bucket/your-script.sh
+    instance_config["metadata"]["items"].append({
+        "key": "startup-script-url",
+        "value": "gs://your-bucket/your-script.sh"
+    })
+    
     print(f"Create operation: {operation.name}")
     

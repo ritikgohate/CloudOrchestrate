@@ -32,6 +32,7 @@ def receive_json():
                 zone=received_data['zone'],
                 group_name=received_data['cluster-id']
             )
+            return jsonify({'status': 'success', 'message': f"Instance group '{received_data['cluster-id']}' deletion initiated."})
     except KeyError as e:
         return jsonify({'error': f'Missing key in JSON: {e}'}), 400
     except Exception as e:
